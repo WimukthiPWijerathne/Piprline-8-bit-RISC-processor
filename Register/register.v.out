@@ -1,0 +1,80 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_01143938 .scope module, "register_file" "register_file" 2 1;
+ .timescale 0 0;
+v00803600_0 .net *"_s0", 2 0, C4<000>; 1 drivers
+v00803658_0 .net *"_s10", 2 0, C4<000>; 1 drivers
+v008036B0_0 .net *"_s12", 0 0, L_0080EB30; 1 drivers
+v0080E4D8_0 .net *"_s14", 7 0, C4<00000000>; 1 drivers
+v0080E530_0 .net *"_s16", 7 0, L_0080EAD8; 1 drivers
+v0080E588_0 .net *"_s2", 0 0, L_0080EA28; 1 drivers
+v0080E5E0_0 .net *"_s4", 7 0, C4<00000000>; 1 drivers
+v0080E638_0 .net *"_s6", 7 0, L_0080E870; 1 drivers
+v0080E690_0 .net "clk", 0 0, C4<z>; 0 drivers
+v0080E9D0_0 .var/i "i", 31 0;
+v0080EBE0_0 .net "read_data1", 7 0, L_0080EA80; 1 drivers
+v0080EDF0_0 .net "read_data2", 7 0, L_0080ECE8; 1 drivers
+v0080E978_0 .net "read_reg1", 2 0, C4<zzz>; 0 drivers
+v0080ED40_0 .net "read_reg2", 2 0, C4<zzz>; 0 drivers
+v0080E710_0 .net "reg_write", 0 0, C4<z>; 0 drivers
+v0080ED98 .array "regs", 7 0, 7 0;
+v0080EE48_0 .net "reset", 0 0, C4<z>; 0 drivers
+v0080E7C0_0 .net "write_data", 7 0, C4<zzzzzzzz>; 0 drivers
+v0080E920_0 .net "write_reg", 2 0, C4<zzz>; 0 drivers
+E_00808140 .event posedge, v0080EE48_0, v0080E690_0;
+L_0080EA28 .cmp/eq 3, C4<zzz>, C4<000>;
+L_0080E870 .array/port v0080ED98, C4<zzz>;
+L_0080EA80 .functor MUXZ 8, L_0080E870, C4<00000000>, L_0080EA28, C4<>;
+L_0080EB30 .cmp/eq 3, C4<zzz>, C4<000>;
+L_0080EAD8 .array/port v0080ED98, C4<zzz>;
+L_0080ECE8 .functor MUXZ 8, L_0080EAD8, C4<00000000>, L_0080EB30, C4<>;
+    .scope S_01143938;
+T_0 ;
+    %wait E_00808140;
+    %load/v 8, v0080EE48_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %set/v v0080E9D0_0, 0, 32;
+T_0.2 ;
+    %load/v 8, v0080E9D0_0, 32;
+   %cmpi/s 8, 8, 32;
+    %jmp/0xz T_0.3, 5;
+    %ix/getv/s 3, v0080E9D0_0;
+    %jmp/1 t_0, 4;
+    %ix/load 0, 8, 0; word width
+    %ix/load 1, 0, 0; part off
+    %assign/av v0080ED98, 0, 0;
+t_0 ;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 8, v0080E9D0_0, 32;
+    %set/v v0080E9D0_0, 8, 32;
+    %jmp T_0.2;
+T_0.3 ;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/v 8, v0080E710_0, 1;
+    %load/v 9, v0080E920_0, 3;
+    %cmpi/u 9, 0, 3;
+    %inv 4, 1;
+    %mov 9, 4, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_0.4, 8;
+    %load/v 8, v0080E7C0_0, 8;
+    %ix/getv 3, v0080E920_0;
+    %jmp/1 t_1, 4;
+    %ix/load 0, 8, 0; word width
+    %ix/load 1, 0, 0; part off
+    %assign/av v0080ED98, 0, 8;
+t_1 ;
+T_0.4 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "register.v";
